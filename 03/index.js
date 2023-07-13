@@ -37,25 +37,21 @@ const carrinho = {
             this.produtos.push(produto);
         }
         
+    },
+    imprimirDetalhes: function(){
+        console.log(`Cliente: ${this.nomeDoCliente}\n`);
+        let totalItems = 0;
+        let precoTotal = 0;
+        for (let produto of this.produtos){
+            const {id, nome, qtd, precoUnit} = produto;
+            totalItems += qtd;
+            precoTotal += qtd * precoUnit;
+            console.log(`Item ${id} - ${nome} - ${qtd} und. - R$ ${((qtd*precoUnit)/100).toFixed(2).replace(".",",")}`);
+        }
+        console.log(`\nTotal de itens: ${totalItems} ${totalItems>1 ? "itens" : "item"}`);
+        console.log(`Total a pagar: R$ ${(precoTotal/100).toFixed(2).replace(".",",")}`);
+        
     }
 }
 
-const novaBermuda = {
-    id: 2,
-    nome: "Bermuda",
-    qtd: 3,
-    precoUnit: 5000
-}
-
-carrinho.addProduto(novaBermuda)
-carrinho.imprimirResumo();
-
-const novoTenis = {
-    id: 3,
-    nome: "Tenis",
-    qtd: 1,
-    precoUnit: 10000
-}
-
-carrinho.addProduto(novoTenis);
-carrinho.imprimirResumo();
+carrinho.imprimirDetalhes();
