@@ -15,12 +15,8 @@ const carrinho = {
         }
     ],
     imprimirResumo: function(){
-        let quantidadeProdutos = 0;
-        let precoTotal = 0;
-        for (let produto of this.produtos){
-            quantidadeProdutos += produto.qtd;
-            precoTotal += produto.qtd * produto.precoUnit; 
-        }
+        let quantidadeProdutos = this.calcularTotalDeItens();
+        let precoTotal = this.calcularTotalAPagar();
         console.log(`Cliente: ${this.nomeDoCliente} \nTotal de itens: ${quantidadeProdutos} ${quantidadeProdutos > 1 ? "itens" :"item"} \nTotal a pagar: R$ ${(precoTotal/100).toFixed(2).replace(".",",")}`);
 
     },
@@ -40,18 +36,31 @@ const carrinho = {
     },
     imprimirDetalhes: function(){
         console.log(`Cliente: ${this.nomeDoCliente}\n`);
-        let totalItems = 0;
-        let precoTotal = 0;
+        let totalItems = this.calcularTotalDeItens();
+        let precoTotal = this.calcularTotalAPagar();
         for (let produto of this.produtos){
             const {id, nome, qtd, precoUnit} = produto;
-            totalItems += qtd;
-            precoTotal += qtd * precoUnit;
             console.log(`Item ${id} - ${nome} - ${qtd} und. - R$ ${((qtd*precoUnit)/100).toFixed(2).replace(".",",")}`);
         }
         console.log(`\nTotal de itens: ${totalItems} ${totalItems>1 ? "itens" : "item"}`);
         console.log(`Total a pagar: R$ ${(precoTotal/100).toFixed(2).replace(".",",")}`);
         
+    },
+    calcularTotalDeItens: function(){
+        let totalItems = 0;
+        for (let produto of this.produtos){
+            totalItems += produto.qtd;
+        }
+        return totalItems;
+    },
+    calcularTotalAPagar: function(){
+        let precoTotal = 0;
+        for (let produto of this.produtos){
+            precoTotal +=  produto.precoUnit * produto.qtd;
+        }
+        return precoTotal;
     }
 }
 
 carrinho.imprimirDetalhes();
+carrinho.imprimirResumo();
